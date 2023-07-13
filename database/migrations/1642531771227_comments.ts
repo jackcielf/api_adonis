@@ -8,7 +8,7 @@ export default class Comments extends BaseSchema {
       table.increments('id')
       table.string('username')
       table.string('text')
-      table.integer('moment_id').unsigned().references('moments.id').onDelete('CASCADE')
+      table.integer('remember_id').unsigned().references('remember.id').onDelete('CASCADE')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

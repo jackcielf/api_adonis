@@ -1,10 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Moment from 'App/Models/Moment'
+import Remember from 'App/Models/Remember'
 import Application from '@ioc:Adonis/Core/Application'
 
 import { v4 as uuidv4 } from 'uuid'
 
-export default class MomentsController {
+export default class RemembersController {
   private validationOptions = {
     types: ['image'],
     size: '2mb',
@@ -25,54 +25,54 @@ export default class MomentsController {
       body.image = imageName
     }
 
-    const moment = await Moment.create(body)
+    const remember = await Remember.create(body)
 
     response.status(201)
 
     return {
-      message: 'Momento criado com sucesso!',
-      data: moment,
+      message: 'remembero criado com sucesso!',
+      data: remember,
     }
   }
 
   public async index() {
-    const moments = await Moment.query().preload('comments')
+    const remember = await Remember.query().preload('comments')
 
     return {
-      data: moments,
+      data: remember,
     }
   }
 
   public async show({ params }: HttpContextContract) {
-    const moment = await Moment.findOrFail(params.id)
+    const remember = await Remember.findOrFail(params.id)
 
-    await moment.load('comments')
+    await remember.load('comments')
 
     return {
-      data: moment,
+      data: remember,
     }
   }
 
   public async destroy({ params }: HttpContextContract) {
-    const moment = await Moment.findOrFail(params.id)
+    const remember = await Remember.findOrFail(params.id)
 
-    await moment.delete()
+    await remember.delete()
 
     return {
-      message: 'Momento excluído com sucesso!',
-      data: moment,
+      message: 'remembero excluído com sucesso!',
+      data: remember,
     }
   }
 
   public async update({ params, request }: HttpContextContract) {
     const body = request.body()
 
-    const moment = await Moment.findOrFail(params.id)
+    const remember = await Remember.findOrFail(params.id)
 
-    moment.title = body.title
-    moment.description = body.description
+    remember.title = body.title
+    remember.description = body.description
 
-    if (moment.image != body.image || !moment.image) {
+    if (remember.image != body.image || !remember.image) {
       const image = request.file('image', this.validationOptions)
 
       if (image) {
@@ -82,15 +82,15 @@ export default class MomentsController {
           name: imageName,
         })
 
-        moment.image = imageName
+        remember.image = imageName
       }
     }
 
-    await moment.save()
+    await remember.save()
 
     return {
-      message: 'Momento atualizado com sucesso!',
-      data: moment,
+      message: 'remembero atualizado com sucesso!',
+      data: remember,
     }
   }
 }

@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Comment from './Comment'
 
-export default class Moment extends BaseModel {
+export default class Remember extends BaseModel {
   @hasMany(() => Comment)
   public comments: HasMany<typeof Comment>
 

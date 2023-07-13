@@ -1,15 +1,15 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Comment from 'App/Models/Comment'
-import Moment from 'App/Models/Moment'
+import Remember from 'App/Models/Remember'
 
 export default class CommentsController {
   public async store({ request, response, params }: HttpContextContract) {
     const body = request.body()
-    const momentId = params.momentId
+    const rememberId = params.rememberId
 
-    await Moment.findOrFail(momentId)
+    await Remember.findOrFail(rememberId)
 
-    body.momentId = momentId
+    body.rememberId = rememberId
 
     const comment = await Comment.create(body)
 
